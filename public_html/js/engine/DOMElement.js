@@ -32,7 +32,7 @@ LEEWGL.DOM.Element.prototype = {
       var children = [];
       for (var i = 0; i < this.e.children.length; ++i) {
         if (typeof search !== 'undefined') {
-          if (this.e.children[i].tagName.toLowerCase() === search.toLowerCase())
+          if (this.e.children[i].tagName.toLowerCase() === search.toLowerCase() || this.e.children[i].className.toLowerCase() === search.toLowerCase())
             children.push(new LEEWGL.DOM.Element(this.e.children[i]));
         } else {
           children.push(new LEEWGL.DOM.Element(this.e.children[i]));

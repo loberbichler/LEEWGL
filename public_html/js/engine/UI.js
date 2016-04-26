@@ -10,6 +10,19 @@ LEEWGL.UI = function(options) {
   this.inspector = undefined;
   /** @inner {LEEWGL.DOM.Element} */
   this.statusBar = undefined;
+  /** @inner {LEEWGL.DOM.Element} */
+  this.console = undefined;
+  /** @inner {LEEWGL.DOM.Element} */
+  this.consoleBody = undefined;
+  /** @inner {bool} */
+  this.consoleDisplayed = false;
+
+  /** @inner {Array} */
+  this.errors = [];
+  /** @inner {Array} */
+  this.warnings = [];
+  /** @inner {Array} */
+  this.information = [];
 
   /** @inner {object} */
   this.outline = {};
@@ -159,6 +172,13 @@ LEEWGL.UI = function(options) {
   this.setStatusBar = function(container) {
     this.statusBar = (typeof container === 'string') ? document.querySelector(container) : container;
     this.statusBar = new LEEWGL.DOM.Element(this.statusBar);
+  };
+
+  this.setConsole = function(console, body) {
+    this.console = (typeof console === 'string') ? document.querySelector(console) : console;
+    this.console = new LEEWGL.DOM.Element(this.console);
+    this.consoleBody = (typeof body === 'string') ? document.querySelector(body) : body;
+    this.consoleBody = new LEEWGL.DOM.Element(this.consoleBody);
   };
 
   this.setEditable = function(index) {
@@ -1736,6 +1756,8 @@ LEEWGL.UI = function(options) {
    */
   this.duplicateObject = function() {
     if (this.activeElement === null) {
+      this.warnings.push('Duplicate: No active element selected!');
+      this.updateConsole();
       console.warn('LEEWGL.UI: No active element selected!');
       return;
     }
@@ -1749,9 +1771,14 @@ LEEWGL.UI = function(options) {
    */
   this.deleteObject = function() {
     if (this.activeElement === null) {
+      this.warnings.push('Delete: No active element selected!');
+      this.updateConsole();
       console.warn('LEEWGL.UI: No active element selected!');
       return;
     }
+    this.information.push('Delete: Element "' + this.activeElement.alias + '" successfully deleted');
+    this.updateConsole();
+
     this.removeObjFromOutline(this.activeIndex);
     this.scene.remove(this.activeElement);
     this.activeElement = null;
@@ -1762,9 +1789,14 @@ LEEWGL.UI = function(options) {
    */
   this.copyObject = function() {
     if (this.activeElement === null) {
+      this.warnings.push('Copy: No active element selected!');
+      this.updateConsole();
       console.warn('LEEWGL.UI: No active element selected!');
       return;
     }
+
+    this.information.push('Copy: Element "' + this.activeElement.alias + '" copied');
+    this.updateConsole();
 
     this.clipBoard = this.activeElement.clone();
     this.statusBarToHTML();
@@ -1774,9 +1806,14 @@ LEEWGL.UI = function(options) {
    */
   this.cutObject = function() {
     if (this.activeElement === null) {
+      this.warnings.push('Cut: No active element selected!');
+      this.updateConsole();
       console.warn('LEEWGL.UI: No active element selected!');
       return;
     }
+
+    this.information.push('Cut: Element "' + this.activeElement.alias + '" cut');
+    this.updateConsole();
 
     this.clipBoard = this.activeElement.clone();
     this.removeObjFromOutline(this.activeIndex);
@@ -1790,9 +1827,14 @@ LEEWGL.UI = function(options) {
    */
   this.pasteObject = function() {
     if (this.clipBoard === null) {
+      this.warnings.push('Paste: No element in clipboard!');
+      this.updateConsole();
       console.warn('LEEWGL.UI: No element in clipboard!');
       return;
     }
+
+    this.information.push('Paste: Element "' + this.clipBoard.alias + '" pasted into scene');
+    this.updateConsole();
 
     this.scene.add(this.clipBoard);
     this.addObjToOutline(this.clipBoard);
@@ -1805,9 +1847,14 @@ LEEWGL.UI = function(options) {
    */
   this.pasteObjectInto = function() {
     if (this.clipBoard === null) {
+      this.warnings.push('Paste into: No element in clipBoard!');
+      this.updateConsole();
       console.warn('LEEWGL.UI: No element in clipboard!');
       return;
     }
+
+    this.information.push('Paste Into: Element "' + this.clipBoard.alias + '" pasted into ' + this.activeOutline.obj.alias + '');
+    this.updateConsole();
 
     this.activeOutline.obj.add(this.clipBoard);
     this.addObjToOutline(this.clipBoard);
@@ -1815,13 +1862,34 @@ LEEWGL.UI = function(options) {
     this.clipBoard = null;
     this.statusBarToHTML();
   };
+
   /**
-   * Adds a new custom script component to active object
+   * Adds a new component to the active gameobject
+   * @param  {string} type The type of the component
    */
-  this.addCustomScriptComponent = function() {
-    this.activeElement.addComponent(new LEEWGL.Component.CustomScript());
+  this.addComponent = function(type) {
+    switch (type) {
+      case 'texture':
+        this.activeElement.addComponent(new LEEWGL.Component.Texture());
+        break;
+      case 'customScript':
+        this.activeElement.addComponent(new LEEWGL.Component.CustomScript());
+        break;
+      case 'bumpMap':
+        this.activeElement.addComponent(new LEEWGL.Component.BumpMap());
+        break;
+      case 'collider':
+        this.activeElement.addComponent(new LEEWGL.Component.Collider());
+        break;
+      case 'billboard':
+        this.activeElement.addComponent(new LEEWGL.Component.Billboard());
+        break;
+      case 'renderer':
+        this.activeElement.addComponent(new LEEWGL.Component.Renderer());
+        break;
+    }
     this.setInspectorElement(this.activeIndex);
-  };
+  }
 
   /**
    * Insert predefined objectes
@@ -2114,6 +2182,51 @@ LEEWGL.UI = function(options) {
         clipBoardContent.set('html', 'Nothing selected');
     }
   };
+
+  this.toggleConsole = function(toggle) {
+    toggle = new LEEWGL.DOM.Element(toggle);
+    if (this.consoleDisplayed) {
+      this.console.setStyle('height', '30px');
+      this.consoleBody.addClass('hidden');
+      toggle.removeClass('toggle-down');
+      toggle.addClass('toggle-up');
+      this.consoleDisplayed = false;
+    } else {
+      this.console.setStyle('height', '250px');
+      this.consoleBody.removeClass('hidden');
+      toggle.addClass('toggle-down');
+      toggle.removeClass('toggle-up');
+      this.consoleDisplayed = true;
+    }
+  }
+
+  this.updateConsole = function() {
+    if (this.console !== null) {
+      var errors = '<div class="errors">';
+      var warnings = '<div class="warnings">';
+      var information = '<div class="information">';
+
+      for(var i = 0; i < this.errors.length; ++i) {
+        errors += this.errors[i] + '<br />';
+      }
+      errors += '</div>';
+      this.consoleBody.appendHTML(errors);
+      for(var i = 0; i < this.warnings.length; ++i) {
+        warnings += this.warnings[i] + '<br />';
+      }
+      warnings += '</div>';
+      this.consoleBody.appendHTML(warnings);
+      for(var i = 0; i < this.information.length; ++i) {
+        information += this.information[i] + '<br />';
+      }
+      information += '</div>';
+      this.consoleBody.appendHTML(information);
+
+      this.errors = [];
+      this.warnings = [];
+      this.information = [];
+    }
+  }
 };
 
 /**

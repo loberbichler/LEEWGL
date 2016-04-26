@@ -346,6 +346,9 @@ LEEWGL.EditorApp.prototype.onMouseDown = function(event) {
           this.movement.x = 0;
           this.movement.y = 0;
           UI.setInspectorElement(obj.id);
+        } else {
+          this.activeElement = null;
+          UI.setInspectorElement(-1);
         }
       } else {
         UI.setInspectorElement(-1);

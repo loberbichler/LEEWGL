@@ -225,15 +225,27 @@ hr {
   left: 100%;
   top: 0;
 }
-.status-bar-overall {
+.footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  text-align: center;
+}
+.console {
+  height: 30px;
+  background-color: rgba(84, 102, 213, 0.6);
+  transition: height 0.3s ease;
+}
+.console-body {
+  margin: 0 auto;
+  width: 75%;
+  height: 80%;
+  overflow: auto;
+  transition: opacity 0.3s ease;
 }
 .status-bar {
   height: 40px;
   line-height: 40px;
+  text-align: center;
 }
 .movable {
   box-shadow: 1px 1px 10px 1px #212121;

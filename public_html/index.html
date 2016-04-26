@@ -127,11 +127,19 @@
             <ul>
               <li><a href="#">Rendering</a>
                 <ul>
-                  <li><a href="#" onclick="UI.addTexture();">Texture</a>
+                  <li><a href="#" onclick="UI.addComponent('texture');">Texture</a>
+                  </li>
+                  <li><a href="#" onclick="UI.addComponent('bumpMap');">BumpMap</a>
+                  </li>
+                  <li><a href="#" onclick="UI.addComponent('billboard');">Billboard</a>
+                  </li>
+                  <li><a href="#" onclick="UI.addComponent('renderer');">Renderer</a>
                   </li>
                 </ul>
               </li>
-              <li><a href="#" onclick="UI.addCustomScriptComponent();">Script</a>
+              <li><a href="#" onclick="UI.addComponent('collider');">Collider</a>
+              </li>
+              <li><a href="#" onclick="UI.addComponent('customScript');">CustomScript</a>
               </li>
             </ul>
           </li>
@@ -213,8 +221,13 @@
         </div>
       </div>
     </div>
-    <div class="status-bar-overall fsize17 dark-primary-color">
-      <div id="status-bar" class="status-bar"></div>
+    <div class="footer">
+      <div id="console" class="console">
+        <a class="toggle-up fright bg-pos47 pointer" title="Toggle console" alt="Toggle console" href="#" onclick="UI.toggleConsole(this);"></a>
+        <div class="clearer"></div>
+        <div class="console-body hidden"></div>
+      </div>
+      <div id="status-bar" class="status-bar dark-primary-color fsize-17"></div>
     </div>
   </div>
 
@@ -224,6 +237,7 @@
       UI.tooltipEvent('.tooltip');
       UI.setInspector('#dynamic-inspector');
       UI.setStatusBar('#status-bar');
+      UI.setConsole('#console', '.console-body');
       // UI.preventRefresh();
 
       var overallContainer = document.querySelector('#container-overall');

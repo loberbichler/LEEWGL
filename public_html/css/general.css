@@ -173,6 +173,12 @@ a:hover {
 .fcenter {
   text-align: center;
 }
+.visible {
+  opacity: 1;
+}
+.hidden {
+  opacity: 0;
+}
 .get-size {
   position: absolute !important;
   visibility: hidden !important;
@@ -180,4 +186,19 @@ a:hover {
   width: auto !important;
   white-space: nowrap !important;
   display: block !important;
+}
+.warnings {
+  color: #000;
+  background: #ffeb84;
+  font-weight: bold;
+}
+.errors {
+  color: #000;
+  background: #ff6c67;
+  font-weight: bold;
+}
+.information {
+  background: #d1f0ff;
+  color: #000;
+  font-weight: bold;
 }
