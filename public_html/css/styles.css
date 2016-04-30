@@ -81,6 +81,15 @@ hr {
   min-height: 1000px;
   width: 1200px;
 }
+.main-content.layout-wide {
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 55px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 1000px;
+  width: 1400px;
+}
 .main-content.layout-reversed {
   position: relative;
   margin-top: 15px;
@@ -104,6 +113,13 @@ hr {
   width: 150px;
   margin: 20px auto;
 }
+.main-controls-container-overall.layout-wide {
+  height: auto;
+  width: 150px;
+  margin-right: 10px;
+  margin-left: 20px;
+  float: left;
+}
 .main-controls-container {
   width: 120px;
   margin: 15px auto;
@@ -122,6 +138,10 @@ hr {
   float: left;
   margin-right: 10px;
 }
+.render-container.layout-wide {
+  float: left;
+  margin-right: 10px;
+}
 .render-container.layout-reversed {
   float: right;
   margin-left: 10px;
@@ -131,6 +151,14 @@ hr {
   border: 1px solid #212121;
 }
 .outline-container.layout-default {
+  width: auto;
+  min-height: 200px;
+  min-width: 150px;
+  max-width: 240px;
+  float: left;
+  margin-left: 10px;
+}
+.outline-container.layout-wide {
   width: auto;
   min-height: 200px;
   min-width: 150px;
@@ -160,6 +188,13 @@ hr {
   border: 1px solid #212121;
 }
 .inspector-container.layout-default {
+  min-height: 200px;
+  width: auto;
+  min-width: 300px;
+  float: left;
+  margin-left: 20px;
+}
+.inspector-container.layout-wide {
   min-height: 200px;
   width: auto;
   min-width: 300px;
