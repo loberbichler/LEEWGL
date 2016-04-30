@@ -71,6 +71,17 @@ hr {
   height: 100%;
 }
 .main-content {
+}
+.main-content.layout-default {
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 55px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 1000px;
+  width: 1200px;
+}
+.main-content.layout-reversed {
   position: relative;
   margin-top: 15px;
   margin-bottom: 55px;
@@ -80,10 +91,17 @@ hr {
   width: 1200px;
 }
 .main-controls-container-overall {
-  height: auto;
-  width: 150px;
   background-color: #3F51B5;
   border: 1px solid #212121;
+}
+.main-controls-container-overall.layout-default {
+  height: auto;
+  width: 150px;
+  margin: 20px auto;
+}
+.main-controls-container-overall.layout-reversed {
+  height: auto;
+  width: 150px;
   margin: 20px auto;
 }
 .main-controls-container {
@@ -98,13 +116,35 @@ hr {
   width: 120px;
   margin: 10px auto;
 }
+.render-container {
+}
+.render-container.layout-default {
+  float: left;
+  margin-right: 10px;
+}
+.render-container.layout-reversed {
+  float: right;
+  margin-left: 10px;
+}
 .outline-container {
+  background-color: #3F51B5;
+  border: 1px solid #212121;
+}
+.outline-container.layout-default {
   width: auto;
   min-height: 200px;
   min-width: 150px;
   max-width: 240px;
-  background-color: #3F51B5;
-  border: 1px solid #212121;
+  float: left;
+  margin-left: 10px;
+}
+.outline-container.layout-reversed {
+  width: auto;
+  min-height: 200px;
+  min-width: 150px;
+  max-width: 240px;
+  float: right;
+  margin-right: 10px;
 }
 .dynamic-outline a {
   display: block;
@@ -116,11 +156,22 @@ hr {
   font-weight: bold;
 }
 .inspector-container {
+  background-color: #3F51B5;
+  border: 1px solid #212121;
+}
+.inspector-container.layout-default {
   min-height: 200px;
   width: auto;
   min-width: 300px;
-  background-color: #3F51B5;
-  border: 1px solid #212121;
+  float: left;
+  margin-left: 20px;
+}
+.inspector-container.layout-reversed {
+  min-height: 200px;
+  width: auto;
+  min-width: 300px;
+  float: right;
+  margin-right: 20px;
 }
 .header-bar-overall {
   padding-bottom: 50px;

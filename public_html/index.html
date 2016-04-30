@@ -147,7 +147,9 @@
             <ul>
               <li><a href="#">Layout</a>
                 <ul>
-                  <li><a href="#">Default</a>
+                  <li><a href="#" onclick="UI.changeLayout('default');">Default</a>
+                  </li>
+                  <li><a href="#" onclick="UI.changeLayout('reversed');">Reversed</a>
                   </li>
                   <li><a href="#">Wide</a>
                   </li>
@@ -165,8 +167,8 @@
     </div>
     <div>
       <div>
-        <div class="main-content">
-          <div class="main-controls-container-overall dynamic-container">
+        <div class="main-content layout layout-default">
+          <div class="main-controls-container-overall dynamic-container layout layout-default">
             <div class="container-header dark-primary-color mbot10">
               <h2>Controls</h2>
               <div class="icon-container fleft">
@@ -187,7 +189,7 @@
               </div>
             </div>
           </div>
-          <div class="mright10 fleft">
+          <div class="render-container layout layout-default">
             <div class="dynamic-container">
               <div class="container-header dark-primary-color">
                 <h2>Editor View</h2>
@@ -199,7 +201,7 @@
               <canvas id="text-canvas" style="display: none;"></canvas>
             </div>
           </div>
-          <div class="outline-container fleft mleft10 dynamic-container">
+          <div class="outline-container dynamic-container layout layout-default">
             <div class="container-header dark-primary-color">
               <h2>Outline</h2>
               <div class="icon-container fleft">
@@ -208,7 +210,7 @@
             </div>
             <div id="dynamic-outline" class="dynamic-outline p10"></div>
           </div>
-          <div class="inspector-container fleft mleft20 dynamic-container">
+          <div class="inspector-container dynamic-container layout layout-default">
             <div class="container-header dark-primary-color">
               <h2>Inspector</h2>
               <div class="icon-container fleft">
@@ -277,5 +279,4 @@
     addEventToWindow('onload', init);
   </script>
 </body>
-
 </html>

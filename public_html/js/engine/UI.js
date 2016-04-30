@@ -41,6 +41,9 @@ LEEWGL.UI = function(options) {
   /** @inner {bool} */
   this.paused = false;
 
+  /** @inner {string} */
+  this.layout = 'default';
+
   /** @inner {glContext} */
   this.gl = undefined;
   /** @inner {LEEWGL.Scene} */
@@ -67,22 +70,11 @@ LEEWGL.UI = function(options) {
   this.popup.create();
 
   /** @inner {LEEWGL.UI.Popup} */
-  this.contextMenu = new LEEWGL.UI.Popup({
-    'movable': false,
-    'close-icon-enabled': false,
-    'wrapper-width': 200,
-    'title-enabled': false
-  });
+  this.contextMenu = new LEEWGL.UI.Popup({'movable': false, 'close-icon-enabled': false, 'wrapper-width': 200, 'title-enabled': false});
   this.contextMenu.create();
 
   /** @inner {LEEWGL.UI.Popup} */
-  this.updatePopup = new LEEWGL.UI.Popup({
-    'movable': false,
-    'close-icon-enabled': true,
-    'close-button-enabled': false,
-    'wrapper-width': 250,
-    'title-enabled': true
-  });
+  this.updatePopup = new LEEWGL.UI.Popup({'movable': false, 'close-icon-enabled': true, 'close-button-enabled': false, 'wrapper-width': 250, 'title-enabled': true});
   this.updatePopup.create();
   this.updatePopup.addTitleText('Update values');
   this.updatePopup.addButton('Update', (function() {
@@ -109,13 +101,7 @@ LEEWGL.UI = function(options) {
   }.bind(this)));
 
   /** @inner {LEEWGL.UI.BasicPopup} */
-  this.tooltipPopup = new LEEWGL.UI.BasicPopup({
-    'wrapper-width': 'fit',
-    'wrapper-height': 'auto',
-    'wrapper-class': 'popup-tooltip',
-    'content-class': 'popup-content fcenter',
-    'title-enabled': false,
-  });
+  this.tooltipPopup = new LEEWGL.UI.BasicPopup({'wrapper-width': 'fit', 'wrapper-height': 'auto', 'wrapper-class': 'popup-tooltip', 'content-class': 'popup-content fcenter', 'title-enabled': false});
   this.tooltipPopup.create();
 
   /** @inner {LEEWGL.UI.Sidebar} */
@@ -149,11 +135,7 @@ LEEWGL.UI = function(options) {
   this.body = new LEEWGL.DOM.Element(document.body);
 
   /** @inner {LEEWGL.Lightbox} */
-  this.lightbox = new window.LEEWGL.Lightbox({
-    'anchor': 'a.lb-image',
-    'link': true,
-    'auto-group': false
-  });
+  this.lightbox = new window.LEEWGL.Lightbox({'anchor': 'a.lb-image', 'link': true, 'auto-group': false});
 
   extend(LEEWGL.UI.prototype, LEEWGL.Options.prototype);
 
@@ -165,24 +147,34 @@ LEEWGL.UI = function(options) {
     this.scene = scene;
   };
   this.setInspector = function(container) {
-    this.inspector = (typeof container === 'string') ? document.querySelector(container) : container;
+    this.inspector = (typeof container === 'string')
+      ? document.querySelector(container)
+      : container;
     this.inspector = new LEEWGL.DOM.Element(this.inspector);
   };
 
   this.setStatusBar = function(container) {
-    this.statusBar = (typeof container === 'string') ? document.querySelector(container) : container;
+    this.statusBar = (typeof container === 'string')
+      ? document.querySelector(container)
+      : container;
     this.statusBar = new LEEWGL.DOM.Element(this.statusBar);
   };
 
   this.setConsole = function(console, body) {
-    this.console = (typeof console === 'string') ? document.querySelector(console) : console;
+    this.console = (typeof console === 'string')
+      ? document.querySelector(console)
+      : console;
     this.console = new LEEWGL.DOM.Element(this.console);
-    this.consoleBody = (typeof body === 'string') ? document.querySelector(body) : body;
+    this.consoleBody = (typeof body === 'string')
+      ? document.querySelector(body)
+      : body;
     this.consoleBody = new LEEWGL.DOM.Element(this.consoleBody);
   };
 
   this.setEditable = function(index) {
-    index = (typeof index !== 'undefined') ? index : -1;
+    index = (typeof index !== 'undefined')
+      ? index
+      : -1;
     var that = this;
     var outline = null;
     var resetEditable = function(outlineObject) {
@@ -202,10 +194,12 @@ LEEWGL.UI = function(options) {
 
     if (outline !== null)
       outline.editable = true;
-  };
+    };
 
   this.setActive = function(index) {
-    index = (typeof index !== 'undefined') ? index : -1;
+    index = (typeof index !== 'undefined')
+      ? index
+      : -1;
     var that = this;
     var resetActive = function(outlineObject) {
       outlineObject.active = false;
@@ -224,7 +218,7 @@ LEEWGL.UI = function(options) {
 
     if (this.activeOutline !== null)
       this.activeOutline.active = true;
-  };
+    };
 
   this.addObjToOutline = function(obj) {
     var that = this;
@@ -269,7 +263,9 @@ LEEWGL.UI = function(options) {
   };
 
   this.getRelativeMouseCoordinates = function(event, start) {
-    var x, y, top = 0,
+    var x,
+      y,
+      top = 0,
       left = 0,
       obj = start;
 
@@ -285,10 +281,7 @@ LEEWGL.UI = function(options) {
     x = event.clientX - left;
     y = event.clientY - top;
 
-    return {
-      'x': x,
-      'y': y
-    };
+    return {'x': x, 'y': y};
   };
 
   /**
@@ -298,7 +291,9 @@ LEEWGL.UI = function(options) {
    */
   this.editableOutline = function(elem, outline) {
     var that = this;
-    var dblclick, keydown, click;
+    var dblclick,
+      keydown,
+      click;
 
     dblclick = function() {
       if (outline.editable === false) {
@@ -361,10 +356,10 @@ LEEWGL.UI = function(options) {
     if (this.updateOutline === false)
       return;
 
-    container = (typeof container === 'string') ? document.querySelector(container) : container;
-    container = new LEEWGL.DOM.Element(container, {
-      'html': ''
-    });
+    container = (typeof container === 'string')
+      ? document.querySelector(container)
+      : container;
+    container = new LEEWGL.DOM.Element(container, {'html': ''});
     var that = this;
 
     var list = new LEEWGL.DOM.Element('ul');
@@ -432,10 +427,7 @@ LEEWGL.UI = function(options) {
             var positionX = that.inspector.position().x;
 
             var size = that.tooltipPopup.getSize();
-            that.tooltipPopup.setPosition({
-              'x': positionX,
-              'y': positionY
-            });
+            that.tooltipPopup.setPosition({'x': positionX, 'y': positionY});
             that.tooltipPopup.show();
           }, 1000);
         });
@@ -468,7 +460,7 @@ LEEWGL.UI = function(options) {
       for (var i = 0; i < vector.length; ++i) {
         if (isNaN(vector[i]))
           return false;
-      }
+        }
       return true;
     };
     var pos = function(args) {
@@ -490,7 +482,7 @@ LEEWGL.UI = function(options) {
         this.transform.rotateY(args[0][1]);
       else if (args[1] === 2)
         this.transform.rotateZ(args[0][2]);
-    };
+      };
     var scale = function(args) {
       if (!checkNaN(args[0]))
         return;
@@ -515,9 +507,7 @@ LEEWGL.UI = function(options) {
    */
   this.removeComponentButton = function(element, component) {
     var that = this;
-    var removeComponentContainer = new LEEWGL.DOM.Element('div', {
-      'class': 'icon-container-small fright'
-    });
+    var removeComponentContainer = new LEEWGL.DOM.Element('div', {'class': 'icon-container-small fright'});
     var removeComponent = new LEEWGL.DOM.Element('a', {
       'class': 'delete-icon bg-pos54 pointer',
       'title': 'Remove Component'
@@ -540,9 +530,7 @@ LEEWGL.UI = function(options) {
    * @return {LEEWGL.DOM.Element} container
    */
   this.transformToHTML = function(element) {
-    var container = new LEEWGL.DOM.Element('div', {
-      'class': 'component-container'
-    });
+    var container = new LEEWGL.DOM.Element('div', {'class': 'component-container'});
     var title = new LEEWGL.DOM.Element('h3', {
       'class': 'component-headline',
       'html': 'Transform'
@@ -597,8 +585,10 @@ LEEWGL.UI = function(options) {
       'headline-class': 'component-detail-headline',
       'headline-type': 'h4',
       'title-class': 'table-title',
-      'content-class': 'editable table-content',
-    }, ['x:', 'y:', 'z:'], vec3.clone(transform.position), 'Position', keydown, keyup));
+      'content-class': 'editable table-content'
+    }, [
+      'x:', 'y:', 'z:'
+    ], vec3.clone(transform.position), 'Position', keydown, keyup));
     // / translation
     container.grab(HTMLHELPER.createTableAsDiv({
       'id': 'transform-translation',
@@ -608,8 +598,10 @@ LEEWGL.UI = function(options) {
       'headline-class': 'component-detail-headline',
       'headline-type': 'h4',
       'title-class': 'table-title',
-      'content-class': 'editable table-content',
-    }, ['x:', 'y:', 'z:'], vec3.clone(transform.transVec), 'Translation', keydown, keyup));
+      'content-class': 'editable table-content'
+    }, [
+      'x:', 'y:', 'z:'
+    ], vec3.clone(transform.transVec), 'Translation', keydown, keyup));
 
     // / rotation
     container.grab(HTMLHELPER.createTableAsDiv({
@@ -620,8 +612,10 @@ LEEWGL.UI = function(options) {
       'headline-class': 'component-detail-headline',
       'headline-type': 'h4',
       'title-class': 'table-title',
-      'content-class': 'editable table-content',
-    }, ['x:', 'y:', 'z:'], vec3.clone(transform.rotVec), 'Rotation', keydown, keyup));
+      'content-class': 'editable table-content'
+    }, [
+      'x:', 'y:', 'z:'
+    ], vec3.clone(transform.rotVec), 'Rotation', keydown, keyup));
     // / scale
     container.grab(HTMLHELPER.createTableAsDiv({
       'id': 'transform-scale',
@@ -631,8 +625,10 @@ LEEWGL.UI = function(options) {
       'headline-class': 'component-detail-headline',
       'headline-type': 'h4',
       'title-class': 'table-title',
-      'content-class': 'editable table-content',
-    }, ['x:', 'y:', 'z:'], vec3.clone(transform.scaleVec), 'Scale', keydown, keyup));
+      'content-class': 'editable table-content'
+    }, [
+      'x:', 'y:', 'z:'
+    ], vec3.clone(transform.scaleVec), 'Scale', keydown, keyup));
 
     return container;
   };
@@ -658,9 +654,7 @@ LEEWGL.UI = function(options) {
 
     var removeComponentContainer = this.removeComponentButton(element, script);
 
-    var appliedScriptsContainer = new LEEWGL.DOM.Element('div', {
-      'class': 'component-detail-container'
-    });
+    var appliedScriptsContainer = new LEEWGL.DOM.Element('div', {'class': 'component-detail-container'});
     var appliedScriptsHeadline = new LEEWGL.DOM.Element('h4', {
       'class': 'component-detail-headline',
       'text': 'Applied Scripts'
@@ -694,9 +688,7 @@ LEEWGL.UI = function(options) {
         'title': 'Toggle Applied Scripts'
       });
 
-      var clearer = new LEEWGL.DOM.Element('div', {
-        'class': 'clearer'
-      });
+      var clearer = new LEEWGL.DOM.Element('div', {'class': 'clearer'});
 
       var appliedScriptsInnerContainer = new LEEWGL.DOM.Element('div', {
         'styles': {
@@ -717,9 +709,7 @@ LEEWGL.UI = function(options) {
 
       var appliedScriptsEvents = function(script, id, editAppliedScript, deleteAppliedScript) {
         editAppliedScript.addEvent('click', function(event) {
-          that.popup.setOptions({
-            'wrapper-width': 400,
-          });
+          that.popup.setOptions({'wrapper-width': 400});
           that.popup.empty();
           that.popup.addTitleText(id);
 
@@ -747,9 +737,7 @@ LEEWGL.UI = function(options) {
           that.popup.addCustomElementToContent(updateAppliedScript);
           that.popup.setDimensions();
           that.popup.center();
-          that.popup.setStyle({
-            'word-wrap': 'break-word'
-          });
+          that.popup.setStyle({'word-wrap': 'break-word'});
           that.popup.show();
         });
 
@@ -760,9 +748,7 @@ LEEWGL.UI = function(options) {
       };
 
       for (var scriptID in appliedScripts) {
-        var appliedScriptListItem = new LEEWGL.DOM.Element('li', {
-          'class': 'big-list'
-        });
+        var appliedScriptListItem = new LEEWGL.DOM.Element('li', {'class': 'big-list'});
         var appliedScript = new LEEWGL.DOM.Element('a', {
           'href': '#',
           'text': scriptID,
@@ -783,9 +769,7 @@ LEEWGL.UI = function(options) {
           'title': 'Delete script',
           'class': 'delete-icon fright bg-pos0 pointer'
         });
-        var clearer = new LEEWGL.DOM.Element('div', {
-          'class': 'clearer'
-        });
+        var clearer = new LEEWGL.DOM.Element('div', {'class': 'clearer'});
 
         appliedScriptsEvents(appliedScript, scriptID, editAppliedScript, deleteAppliedScript);
 
@@ -825,9 +809,7 @@ LEEWGL.UI = function(options) {
       appliedScriptsHeadline.set('text', 'No applied scripts');
     }
 
-    var newScriptContainer = new LEEWGL.DOM.Element('div', {
-      'class': 'component-detail-container'
-    });
+    var newScriptContainer = new LEEWGL.DOM.Element('div', {'class': 'component-detail-container'});
     var newScriptHeadline = new LEEWGL.DOM.Element('h4', {
       'class': 'component-detail-headline mbot10',
       'text': 'New Script'
@@ -897,19 +879,13 @@ LEEWGL.UI = function(options) {
 
     var removeComponentContainer = this.removeComponentButton(element, texture);
 
-    var fileName = new LEEWGL.DOM.Element('h4', {
-      'class': 'component-sub-headline'
-    });
-    var fileInput = new LEEWGL.DOM.Element('input', {
-      'type': 'file'
-    });
+    var fileName = new LEEWGL.DOM.Element('h4', {'class': 'component-sub-headline'});
+    var fileInput = new LEEWGL.DOM.Element('input', {'type': 'file'});
     var imageContainer = new LEEWGL.DOM.Element('div', {
       'id': 'texture-preview-container',
       'class': 'image-preview-container'
     });
-    var imageAnchor = new LEEWGL.DOM.Element('a', {
-      'class': 'lb-image'
-    });
+    var imageAnchor = new LEEWGL.DOM.Element('a', {'class': 'lb-image'});
     var image = new LEEWGL.DOM.Element('img');
     imageAnchor.grab(image);
     imageContainer.grab(imageAnchor);
@@ -972,19 +948,13 @@ LEEWGL.UI = function(options) {
 
     var removeComponentContainer = this.removeComponentButton(element, billboard);
 
-    var fileName = new LEEWGL.DOM.Element('h4', {
-      'class': 'component-sub-headline'
-    });
-    var fileInput = new LEEWGL.DOM.Element('input', {
-      'type': 'file'
-    });
+    var fileName = new LEEWGL.DOM.Element('h4', {'class': 'component-sub-headline'});
+    var fileInput = new LEEWGL.DOM.Element('input', {'type': 'file'});
     var imageContainer = new LEEWGL.DOM.Element('div', {
       'id': 'billboard-preview-container',
       'class': 'image-preview-container'
     });
-    var imageAnchor = new LEEWGL.DOM.Element('a', {
-      'class': 'lb-image'
-    });
+    var imageAnchor = new LEEWGL.DOM.Element('a', {'class': 'lb-image'});
     var image = new LEEWGL.DOM.Element('img');
     imageAnchor.grab(image);
     imageContainer.grab(imageAnchor);
@@ -1046,19 +1016,13 @@ LEEWGL.UI = function(options) {
 
     var removeComponentContainer = this.removeComponentButton(element, bumpMap);
 
-    var fileName = new LEEWGL.DOM.Element('h4', {
-      'class': 'component-sub-headline'
-    });
-    var fileInput = new LEEWGL.DOM.Element('input', {
-      'type': 'file'
-    });
+    var fileName = new LEEWGL.DOM.Element('h4', {'class': 'component-sub-headline'});
+    var fileInput = new LEEWGL.DOM.Element('input', {'type': 'file'});
     var imageContainer = new LEEWGL.DOM.Element('div', {
       'id': 'billboard-preview-container',
       'class': 'image-preview-container'
     });
-    var imageAnchor = new LEEWGL.DOM.Element('a', {
-      'class': 'lb-image'
-    });
+    var imageAnchor = new LEEWGL.DOM.Element('a', {'class': 'lb-image'});
     var image = new LEEWGL.DOM.Element('img');
     imageAnchor.grab(image);
     imageContainer.grab(imageAnchor);
@@ -1154,7 +1118,7 @@ LEEWGL.UI = function(options) {
         container.grab(this.billboardToHTML(element));
       else if (component instanceof LEEWGL.Component.BumpMap)
         container.grab(this.bumpMapToHTML(element));
-    }
+      }
     return container;
   };
 
@@ -1170,9 +1134,7 @@ LEEWGL.UI = function(options) {
     var that = this;
 
     if (typeof obj.editables !== 'undefined') {
-      container = new LEEWGL.DOM.Element('div', {
-        'class': 'component-container'
-      });
+      container = new LEEWGL.DOM.Element('div', {'class': 'component-container'});
       title = new LEEWGL.DOM.Element('h3', {
         'class': 'component-headline',
         'html': 'Values'
@@ -1228,10 +1190,7 @@ LEEWGL.UI = function(options) {
         that.removeObjFromOutline(old.id);
 
         var newLight = functionFromString('LEEWGL.Light.' + newType + 'Light');
-        newLight = new newLight({
-          'tagname': 'Light',
-          'alias': 'Light'
-        });
+        newLight = new newLight({'tagname': 'Light', 'alias': 'Light'});
         that.scene.add(newLight);
         that.addObjToOutline(newLight);
         that.setInspectorElement(newLight.id);
@@ -1374,9 +1333,7 @@ LEEWGL.UI = function(options) {
    */
   this.componentsButton = function() {
     var that = this;
-    var container = new LEEWGL.DOM.Element('div', {
-      'class': 'controls-container'
-    });
+    var container = new LEEWGL.DOM.Element('div', {'class': 'controls-container'});
     var addComponentControl = new LEEWGL.DOM.Element('input', {
       'class': 'submit',
       'type': 'submit',
@@ -1389,6 +1346,21 @@ LEEWGL.UI = function(options) {
     });
 
     return container;
+  };
+
+  /**
+   * Change layout
+   * @param  {string} type
+   */
+  this.changeLayout = function(type) {
+    var elements = document.querySelectorAll('.layout');
+    for(var i = 0; i < elements.length; ++i) {
+        var element = new LEEWGL.DOM.Element(elements[i]);
+        element.removeClass('layout-' + this.layout);
+        element.addClass('layout-' + type);
+    }
+
+    this.layout = type;
   };
 
   /**
@@ -1537,7 +1509,7 @@ LEEWGL.UI = function(options) {
     element.components['CustomScript'].removeScript(scriptID);
     if (element.hasEventListenerType(scriptID))
       element.removeEventListenerType(scriptID);
-  };
+    };
 
   this.addScriptToDOM = function(id, src) {
     var script;
@@ -1559,7 +1531,9 @@ LEEWGL.UI = function(options) {
   };
 
   this.displaySettings = function(displayInSidebar) {
-    displayInSidebar = (typeof displayInSidebar !== 'undefined') ? displayInSidebar : true;
+    displayInSidebar = (typeof displayInSidebar !== 'undefined')
+      ? displayInSidebar
+      : true;
 
     if (displayInSidebar === true)
       this.setSidebarContent('Settings', SETTINGS.toHTML());
@@ -1592,7 +1566,14 @@ LEEWGL.UI = function(options) {
 
     this.contextMenu.empty();
 
-    var listItems = ['Duplicate', 'Copy', 'Cut', 'Paste', 'Paste into', 'Delete'];
+    var listItems = [
+      'Duplicate',
+      'Copy',
+      'Cut',
+      'Paste',
+      'Paste into',
+      'Delete'
+    ];
 
     this.contextMenu.addList(listItems, function(item) {
       if (item.toLowerCase() === 'duplicate')
@@ -1637,10 +1618,7 @@ LEEWGL.UI = function(options) {
     // / get all not already added components
     var availableComponents = this.getAvailableComponents(this.activeOutline.obj);
 
-    this.popup.setOptions({
-      'title-fontsize': 19,
-      'wrapper-width': 275
-    });
+    this.popup.setOptions({'title-fontsize': 19, 'wrapper-width': 275});
     this.popup.empty();
     this.popup.addTitleText('Add Component');
 
@@ -1675,7 +1653,7 @@ LEEWGL.UI = function(options) {
       for (i = 0; i < a.length; ++i) {
         if (!visited[a[i]])
           arr.push(a[i]);
-      }
+        }
       return arr;
     };
 
@@ -1728,9 +1706,7 @@ LEEWGL.UI = function(options) {
 
     this.app.onPlay();
 
-    Window.prototype.dispatchEvent({
-      'type': 'custom'
-    });
+    Window.prototype.dispatchEvent({'type': 'custom'});
   };
 
   this.stop = function() {
@@ -1975,11 +1951,7 @@ LEEWGL.UI = function(options) {
   this.displayInsertPrompt = function(obj) {
     var that = this;
     this.popup.empty();
-    this.popup.setOptions({
-      'wrapper-width': 450,
-      'wrapper-height': 'auto',
-      'title-fontsize': 19
-    });
+    this.popup.setOptions({'wrapper-width': 450, 'wrapper-height': 'auto', 'title-fontsize': 19});
 
     this.popup.addTitleText('Insert ' + obj.type);
 
@@ -2020,10 +1992,7 @@ LEEWGL.UI = function(options) {
    */
   this.displayImportScript = function() {
     this.popup.empty();
-    this.popup.setOptions({
-      'wrapper-width': 500,
-      'wrapper-height': 'auto',
-    });
+    this.popup.setOptions({'wrapper-width': 500, 'wrapper-height': 'auto'});
 
     this.popup.addTitleText('Import Script');
     this.popup.addHTMLFile('html/import_script.html');
@@ -2038,11 +2007,7 @@ LEEWGL.UI = function(options) {
 
   this.displayImportModel = function() {
     this.popup.empty();
-    this.popup.setOptions({
-      'wrapper-width': 350,
-      'wrapper-height': 'auto',
-      'title-fontsize': 23
-    });
+    this.popup.setOptions({'wrapper-width': 350, 'wrapper-height': 'auto', 'title-fontsize': 23});
 
     this.popup.addTitleText('Import Model');
     this.popup.addHTMLFile('html/import_model.html');
@@ -2056,14 +2021,16 @@ LEEWGL.UI = function(options) {
     var filename = input.value.substring(prefix.length, input.value.length);
     var path = LEEWGL.ROOT + 'models/' + filename;
 
-    var object = this.importer.import(path, this.gl);
+    var object = this.importer.import (path, this.gl);
 
     this.scene.add(object);
     this.addObjToOutline(object);
   };
 
   this.displayAbout = function(displayInSidebar) {
-    displayInSidebar = (typeof displayInSidebar !== 'undefined') ? displayInSidebar : false;
+    displayInSidebar = (typeof displayInSidebar !== 'undefined')
+      ? displayInSidebar
+      : false;
 
     if (displayInSidebar === false) {
       this.setPopupHTML('About LEEWGL', 'html/about.html');
@@ -2098,10 +2065,7 @@ LEEWGL.UI = function(options) {
 
   this.displayExport = function() {
     this.popup.empty();
-    this.popup.setOptions({
-      'wrapper-width': 500,
-      'title-fontsize': 23
-    });
+    this.popup.setOptions({'wrapper-width': 500, 'title-fontsize': 23});
 
     this.setPopupHTML('Export', 'html/export.html');
     this.popup.setDimensions();
@@ -2160,13 +2124,9 @@ LEEWGL.UI = function(options) {
   this.statusBarToHTML = function() {
     this.statusBar.empty();
     if (this.statusBar !== null) {
-      var clipBoardContent = new LEEWGL.DOM.Element('div', {
-        'class': 'fright mright10'
-      });
+      var clipBoardContent = new LEEWGL.DOM.Element('div', {'class': 'fright mright10'});
       this.statusBar.grab(clipBoardContent);
-      var helpContent = new LEEWGL.DOM.Element('div', {
-        'class': 'mright10'
-      });
+      var helpContent = new LEEWGL.DOM.Element('div', {'class': 'mright10'});
       this.statusBar.grab(helpContent);
 
       if (this.transformationMode === 'translation')
@@ -2180,8 +2140,8 @@ LEEWGL.UI = function(options) {
         clipBoardContent.set('html', '1 Element selected');
       } else
         clipBoardContent.set('html', 'Nothing selected');
-    }
-  };
+      }
+    };
 
   this.toggleConsole = function(toggle) {
     toggle = new LEEWGL.DOM.Element(toggle);
@@ -2206,17 +2166,17 @@ LEEWGL.UI = function(options) {
       var warnings = '<div class="warnings">';
       var information = '<div class="information">';
 
-      for(var i = 0; i < this.errors.length; ++i) {
+      for (var i = 0; i < this.errors.length; ++i) {
         errors += this.errors[i] + '<br />';
       }
       errors += '</div>';
       this.consoleBody.appendHTML(errors);
-      for(var i = 0; i < this.warnings.length; ++i) {
+      for (var i = 0; i < this.warnings.length; ++i) {
         warnings += this.warnings[i] + '<br />';
       }
       warnings += '</div>';
       this.consoleBody.appendHTML(warnings);
-      for(var i = 0; i < this.information.length; ++i) {
+      for (var i = 0; i < this.information.length; ++i) {
         information += this.information[i] + '<br />';
       }
       information += '</div>';
@@ -2299,20 +2259,14 @@ LEEWGL.UI.BasicPopup.prototype = {
     if (typeof this.wrapper !== 'undefined')
       return;
 
-    this.wrapper = new LEEWGL.DOM.Element('div', {
-      'class': this.options['wrapper-class']
-    });
+    this.wrapper = new LEEWGL.DOM.Element('div', {'class': this.options['wrapper-class']});
 
     if (this.options['title-enabled'] === true) {
-      this.title = new LEEWGL.DOM.Element('div', {
-        'class': this.options['title-class']
-      });
+      this.title = new LEEWGL.DOM.Element('div', {'class': this.options['title-class']});
       this.wrapper.grab(this.title);
     }
 
-    this.content = new LEEWGL.DOM.Element('div', {
-      'class': this.options['content-class']
-    });
+    this.content = new LEEWGL.DOM.Element('div', {'class': this.options['content-class']});
 
     this.wrapper.grab(this.content);
     this.parent.grab(this.wrapper);
@@ -2332,19 +2286,26 @@ LEEWGL.UI.BasicPopup.prototype = {
     if (this.options['wrapper-width'] === 'fit')
       this.wrapper.setStyle('width', size.width + this.options['wrapper-width-padding'] + 'px');
     else
-      this.wrapper.setStyle('width', (typeof this.options['wrapper-width'] === 'number') ? this.options['wrapper-width'] + 'px' : this.options['wrapper-width']);
+      this.wrapper.setStyle('width', (typeof this.options['wrapper-width'] === 'number')
+        ? this.options['wrapper-width'] + 'px'
+        : this.options['wrapper-width']);
     if (this.options['wrapper-height'] === 'fit')
       this.wrapper.setStyle('height', size.height + this.options['wrapper-height-padding'] + 'px');
     else
-      this.wrapper.setStyle('height', (typeof this.options['wrapper-height'] === 'number') ? this.options['wrapper-height'] + 'px' : this.options['wrapper-height']);
-  },
+      this.wrapper.setStyle('height', (typeof this.options['wrapper-height'] === 'number')
+        ? this.options['wrapper-height'] + 'px'
+        : this.options['wrapper-height']);
+    }
+  ,
   /**
    * Sets top and left style of this.wrapper
    * @param {number} pos.x
    * @param {number} pos.y
    */
   setPosition: function(pos) {
-    pos = (typeof pos !== 'undefined') ? pos : this.pos;
+    pos = (typeof pos !== 'undefined')
+      ? pos
+      : this.pos;
     this.pos = pos;
     this.wrapper.setStyles({
       'top': this.pos.y + 'px',
@@ -2402,9 +2363,7 @@ LEEWGL.UI.BasicPopup.prototype = {
       console.error('LEEWGL.UI.BasicPopup: call create() first!');
       return;
     }
-    var content = new LEEWGL.DOM.Element('p', {
-      'text': text
-    });
+    var content = new LEEWGL.DOM.Element('p', {'text': text});
     this.content.grab(content);
   },
   /**
@@ -2517,7 +2476,7 @@ LEEWGL.UI.Popup = function(options) {
     'list-item-class': 'popup-list',
     'close-icon-enabled': true,
     'close-button-enabled': false,
-    'movable': true,
+    'movable': true
   };
 
   this.addOptions(ext_options);
@@ -2538,9 +2497,7 @@ LEEWGL.UI.Popup.prototype.create = function() {
   LEEWGL.UI.BasicPopup.prototype.create.call(this);
 
   if (this.options['overlay-enabled'] === true) {
-    this.overlay = new LEEWGL.DOM.Element('div', {
-      'class': this.options['overlay-class']
-    });
+    this.overlay = new LEEWGL.DOM.Element('div', {'class': this.options['overlay-class']});
     this.parent.grab(this.overlay);
   }
 
@@ -2563,11 +2520,11 @@ LEEWGL.UI.Popup.prototype.create = function() {
  * @param {function} evFunction - optional
  */
 LEEWGL.UI.Popup.prototype.addList = function(content, evFunction) {
-  evFunction = (typeof evFunction !== 'undefined') ? evFunction : function() {};
+  evFunction = (typeof evFunction !== 'undefined')
+    ? evFunction
+    : function() {};
 
-  var list = new LEEWGL.DOM.Element('ul', {
-    'class': 'popup-list'
-  });
+  var list = new LEEWGL.DOM.Element('ul', {'class': 'popup-list'});
   this.listItems = [];
 
   var clickEvent = function(item, index) {
@@ -2601,12 +2558,8 @@ LEEWGL.UI.Popup.prototype.addCloseIcon = function() {
     return;
   }
 
-  var iconContainer = new LEEWGL.DOM.Element('div', {
-    'class': 'icon-container fright'
-  });
-  var clearer = new LEEWGL.DOM.Element('div', {
-    'class': 'clearer'
-  });
+  var iconContainer = new LEEWGL.DOM.Element('div', {'class': 'icon-container fright'});
+  var clearer = new LEEWGL.DOM.Element('div', {'class': 'clearer'});
 
   var closeIcon = new LEEWGL.DOM.Element('a', {
     'title': 'Close Popup',
@@ -2634,9 +2587,7 @@ LEEWGL.UI.Popup.prototype.addButton = function(value, callback) {
     return;
   }
 
-  var buttonContainer = new LEEWGL.DOM.Element('div', {
-    'class': 'popup-button-wrapper'
-  });
+  var buttonContainer = new LEEWGL.DOM.Element('div', {'class': 'popup-button-wrapper'});
   var button = new LEEWGL.DOM.Element('input', {
     'type': 'submit',
     'value': value
@@ -2674,12 +2625,8 @@ LEEWGL.UI.Popup.prototype.movable = function() {
 
   var that = this;
 
-  var iconContainer = new LEEWGL.DOM.Element('div', {
-    'class': 'icon-container fleft'
-  });
-  var clearer = new LEEWGL.DOM.Element('div', {
-    'class': 'clearer'
-  });
+  var iconContainer = new LEEWGL.DOM.Element('div', {'class': 'icon-container fleft'});
+  var clearer = new LEEWGL.DOM.Element('div', {'class': 'clearer'});
 
   var moveIcon = new LEEWGL.DOM.Element('a', {
     'title': 'Move Popup',
@@ -2707,7 +2654,7 @@ LEEWGL.UI.Popup.prototype.movable = function() {
 LEEWGL.UI.Popup.prototype.showOverlay = function() {
   if (this.options['overlay-enabled'] === true)
     this.overlay.setStyle('display', 'fixed');
-};
+  };
 
 /**
  * Calls LEEWGL.UI.BasicPopup.show and LEEWGL.UI.Popuo.showOverlay
@@ -2723,7 +2670,7 @@ LEEWGL.UI.Popup.prototype.show = function() {
 LEEWGL.UI.Popup.prototype.hideOverlay = function() {
   if (this.options['overlay-enabled'] === true)
     this.overlay.setStyle('display', 'none');
-};
+  };
 
 /**
  * Calls LEEWGL.UI.BasicPopup.hide and LEEWGL.UI.Popuo.hideOverlay
@@ -2747,7 +2694,7 @@ LEEWGL.UI.Popup.prototype.empty = function() {
 
   if (this.options['movable'] === true)
     this.movable();
-};
+  };
 
 /**
  * @constructor
@@ -2785,7 +2732,7 @@ LEEWGL.UI.Sidebar.prototype.create = function() {
 
   if (this.options.animated === true)
     this.animator = new LEEWGL.DOM.Animator();
-};
+  };
 
 LEEWGL.UI.Sidebar.prototype.addToggleButton = function() {
   if (this.initialized === false) {
@@ -2803,12 +2750,10 @@ LEEWGL.UI.Sidebar.prototype.addToggleButton = function() {
       'position': 'absolute'
     }
   });
-  var clearer = new LEEWGL.DOM.Element('div', {
-    'class': 'clearer'
-  });
+  var clearer = new LEEWGL.DOM.Element('div', {'class': 'clearer'});
   this.toggleIcon = new LEEWGL.DOM.Element('a', {
     'title': 'Toggle Sidebar',
-    'class': 'toggle-right bg-pos108 pointer',
+    'class': 'toggle-right bg-pos108 pointer'
   });
 
   this.toggleIconContainer.grab(this.toggleIcon);
@@ -2817,7 +2762,8 @@ LEEWGL.UI.Sidebar.prototype.addToggleButton = function() {
   this.toggleIcon.addEvent('mousedown', function(event) {
     if (event.which === 1 || event.button === LEEWGL.MOUSE.LEFT)
       that.toggle();
-  });
+    }
+  );
 
   this.wrapper.grab(this.toggleIconContainer, 'top');
 };
@@ -2830,7 +2776,8 @@ LEEWGL.UI.Sidebar.prototype.toggle = function() {
     this.hide();
   else
     this.show();
-};
+  }
+;
 
 /**
  * Displays the sidebar
@@ -2842,10 +2789,7 @@ LEEWGL.UI.Sidebar.prototype.show = function() {
   var that = this;
 
   if (this.options['toggle-button-enabled'] === true) {
-    this.toggleIconContainer.setStyles({
-      'left': '0px',
-      'position': 'relative'
-    });
+    this.toggleIconContainer.setStyles({'left': '0px', 'position': 'relative'});
     this.toggleIcon.set('class', 'toggle-left bg-pos88 pointer');
   }
 
@@ -2859,10 +2803,7 @@ LEEWGL.UI.Sidebar.prototype.show = function() {
       }
     } else {
       this.wrapper.setStyle('left', '0px');
-      this.toggleIconContainer.setStyles({
-        'left': '0px',
-        'position': 'relative'
-      });
+      this.toggleIconContainer.setStyles({'left': '0px', 'position': 'relative'});
       this.isDisplayed = true;
     }
   }
@@ -2889,7 +2830,7 @@ LEEWGL.UI.Sidebar.prototype.hide = function() {
   if (this.options.animated === true) {
     if (this.animator.isRunning(this.wrapper) === false) {
       this.animator.animate(this.wrapper, {
-        'left': -size.width,
+        'left': -size.width
       }, 0.5, function() {
         that.isDisplayed = false;
       }, 100);
